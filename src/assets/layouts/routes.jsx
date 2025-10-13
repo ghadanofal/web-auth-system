@@ -7,33 +7,34 @@ import Register from "../component/web/register/Register";
 import Login from "../component/web/log-in/Login";
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout/>,
-        children :[
-            {
-                path: 'home',
-                element: <Home/>
-            },
-            {
-                path: 'register',
-                element: <Register/>
-            },
-            {
-                path: 'login',
-                element: <Login/>
-            }
-        ]
-    },
-    {
-        path: '/dashboard',
-        element: <DashboardLayout/>,
-        children : [
-            {
-                path: 'home',
-                element:<HomeDashboard/>,
-            }
-        ]
-    }
-    ]);    
+  {
+    path: "/",
 
+    element: <Layout />,
+
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "home",
+        element: <HomeDashboard />,
+      },
+    ],
+  },
+]);
