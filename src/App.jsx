@@ -1,5 +1,6 @@
 import Layout from "./assets/layouts/Layout.jsx";
 import Home from "./assets/component/web/home/Home.jsx";
+import Register from "./assets/component/web/register/register.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -9,8 +10,15 @@ function App() {
 
   const SaveCurrentUser = () => {
     const token = localStorage.getItem("userToken");
-    const decode = jwtDecode(token);
-    setUser(decode);
+    if (!token) return;
+    try {
+      const decode = jwtDecode(token);
+      setUser(decode);
+    } catch (err) {
+      console.error("Invalid token", err);
+      localStorage.removeItem("userToken");
+      setUser(null);
+    }
   };
 
   useEffect(() => {
@@ -28,6 +36,14 @@ function App() {
           path: "/",
           element: <Home />,
         },
+        {
+          path: "register",
+          element: <Register />,
+        }, //,
+        //{
+        //  path: 'login',
+        //element: <Login SaveCurrentUser={SaveCurrentUser}/>
+        //}
       ],
     },
   ]);
