@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 export default function Navbar({ user }, { setUser }) {
@@ -10,14 +11,12 @@ export default function Navbar({ user }, { setUser }) {
     navigate("/home");
   };
   console.log(user);
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
         <a className="navbar-brand" href="#">
           T-shop
         </a>
-
         <button
           className="navbar-toggler"
           type="button"
@@ -29,7 +28,6 @@ export default function Navbar({ user }, { setUser }) {
         >
           <span className="navbar-toggler-icon" />
         </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav m-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -71,7 +69,7 @@ export default function Navbar({ user }, { setUser }) {
               {!user ? (
                 <ul className="dropdown-menu ">
                   <li>
-                    <Link to="#" className="dropdown-item" href="#">
+                    <Link to="/register" className="dropdown-item" href="#">
                       register
                     </Link>
                   </li>
@@ -79,7 +77,7 @@ export default function Navbar({ user }, { setUser }) {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <Link to="#" className="dropdown-item" href="#">
+                    <Link to="/login" className="dropdown-item" href="#">
                       login
                     </Link>
                   </li>
@@ -87,7 +85,7 @@ export default function Navbar({ user }, { setUser }) {
               ) : (
                 <ul className="dropdown-menu ">
                   <li>
-                    <Link to="#" className="dropdown-item" href="#">
+                    <Link to="/register" className="dropdown-item" href="#">
                       profile
                     </Link>
                   </li>
