@@ -1,42 +1,35 @@
+import React from "react";
 import Input from "../../pages/Input";
-import "./register.css";
+import "../register/register.css";
 import { useFormik } from "formik";
-import { registerSchema } from "../validation/validation.js";
+import { LoginSchema } from "../validation/validation.js";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-export default function Register() {
-  const navigate = useNavigate();
+export default function Login({ SaveCurrentUser }) {
+  let navigate = useNavigate();
   const initialValues = {
-    userName: "",
     email: "",
     password: "",
-    image: "",
-  };
-  const HandleFieldChange = (event) => {
-    console.log("test");
-    console.log(event);
   };
 
   const onSubmit = async (users) => {
     console.log(users);
-
-    const formData = new FormData();
-    formData.append("userName", users.userName);
-    formData.append("email", users.email);
-    formData.append("password", users.password);
-
     const { data } = await axios.post(
-      `https://ecommerce-node4.vercel.app/auth/signup`,
-      formData,
+      `https://ecommerce-node4.vercel.app/auth/signin`,
+      users,
     );
     console.log(data);
+
     if (data.message == "success") {
+      localStorage.setItem("userToken", data.token);
+      SaveCurrentUser();
+
       formik.resetForm();
-      toast.success("account created successfuly, please verify your email", {
+      toast.success("youe sign-in is successfuly", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: false,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -45,29 +38,21 @@ export default function Register() {
         theme: "dark",
       });
 
-      // Redirect to login page immediately
-      navigate("/login");
+      if (data.user && data.user.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
     }
   };
 
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validationSchema: registerSchema,
+    validationSchema: LoginSchema,
   });
-  // console.log(formik.values)
-  console.log(formik);
 
-  //dynamic input
   const inputs = [
-    {
-      id: "username",
-      type: "text",
-      name: "userName",
-      title: "user name",
-      placeholder: "User Name",
-      value: formik.values.userName,
-    },
     {
       id: "email",
       type: "email",
@@ -95,16 +80,17 @@ export default function Register() {
       placeholder={ele.placeholder}
       value={ele.value}
       errors={formik.errors}
-      onchange={ele.onChange || formik.handleChange}
+      onchange={formik.handleChange}
       touched={formik.touched}
       onBlur={formik.handleBlur}
       key={index}
     />
   ));
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="formy">
-        <h2 className="text-center mt-5">Sign up</h2>
+        <h2 className="text-center mt-5">Sign in</h2>
 
         {renderInput}
 
